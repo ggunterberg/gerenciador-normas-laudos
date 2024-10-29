@@ -34,10 +34,6 @@ Os seguintes pontos são objetivos de qualidade e suas respectivas soluções:
 - *Facilidade de uso*: O sistema deve ser acessível e intuitivo para o usuário comum ser capaz de utilizá-lo em menos de 10 minutos.
   - Disponibilizar o sistema como um site permite fácil acesso a maior parte dos usuários. Para simplificar o aprendizado do usuário no sistema a aplicação deve aderir a padrões de design minimalistas que priorizem facilidade de uso.
 
-###  Decisões Arquiteturais
-
-[Pendente]
-
 ### Visão de Implantação
 
 [Pendente]
