@@ -37,7 +37,10 @@ async function copyCardImageToClipboard(item, key) {
 
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
 
-    const clipboardItem = new ClipboardItem({ "text/plain": new Blob([item.description], { type: 'text/plain' }), "image/png": blob });
+    const clipboardItem = new ClipboardItem({
+      "text/plain": new Blob([item.description], { type: 'text/plain' }),
+      "image/png": blob 
+    });
 
     console.dir(clipboardItem);
     await navigator.clipboard.write([clipboardItem]);
@@ -78,40 +81,41 @@ const onDialogOpen = (item) => {
 </script>
 
 <template>
-  <div class="bg-slate-900 h-screen w-screen">
-    <div class="w-screen px-40 py-10 flex flex-col justify-center items-center">
-      <UInput v-model="searchInput" type="text" color="blue" outlined class="w-96" placeholder="Pesquisar" size="lg"
+  <div class="bg-slate-900">
+    <UContainer class="h-[10vh] p-5">
+      <UInput v-model="searchInput" type="text" color="blue" outlined class="w-full" placeholder="Pesquisar"
         icon="i-heroicons-magnifying-glass" @change="filterOptions" />
-      <UContainer
-        class="bg-slate-900 rounded-md mt-6 p-6 gap-5 overflow-y-auto overflow-x-hidden pt-7 flex flex-wrap justify-center lg:justify-between items-center transition-all w-full max-h-[86svh] h-fit">
-        <UCard v-if="!!filteredNormasLaudoTecnico.length" v-for="(item, key) in filteredNormasLaudoTecnico" :key="key"
-          :ref="cardRefs" class="w-full md:w-96 sm:w-96 h-auto divide-none">
-          <template #header>
-            {{ item.title }}
-          </template>
-          <div class="card-content">
-            <div class="mb-4">{{ item.resume }}</div>
-            <img v-if="item.imgUrl" class="mb-4 rounded-md" :id="`${item.title.replaceAll(' ', '-')}-${key}`"
-              :src="item.imgUrl">
-          </div>
+    </UContainer>
 
+    <UContainer class="h-[90vh] overflow-y-auto flex flex-wrap gap-5 py-16 px-10">
 
+      <UCard v-if="!!filteredNormasLaudoTecnico.length" v-for="(item, key) in filteredNormasLaudoTecnico" :key="key"
+        :ref="cardRefs" class="max-w-96 grow divide-none">
 
-          <template #footer class="max-h-1">
-            <UContainer class="flex flex-row justify-center items-center content-center gap-4">
-              <UButton size="lg" variant="soft" color="blue" icon="i-heroicons-clipboard" label="Copiar"
-                class="transition-all ease-in-out" @click="copyCardImageToClipboard(item, key)" />
-              <UButton size="lg" variant="soft" color="yellow" icon="i-heroicons-eye" label="Visualizar"
-                class="transition-all ease-in-out" @click="onDialogOpen(item)" />
-            </UContainer>
-          </template>
-        </UCard>
-        <Ucard v-else
-          class="bg-slate-800 w-full text-center flex align-middle justify-center items-center rounded-lg h-10">
-          <span>Nenhuma norma encontrada</span>
-        </Ucard>
-      </UContainer>
-    </div>
+        <template #header>
+          {{ item.title }}
+        </template>
+
+        <div class="h-[160px] overflow-y-hidden text-ellipsis">{{ item.description }}</div>
+
+        <template #footer class="max-h-1">
+          <UContainer class="flex justify-center gap-4">
+
+            <UButton variant="soft" color="blue" icon="i-heroicons-clipboard" label="Copiar"
+              class="transition-all ease-in-out" @click="copyCardImageToClipboard(item, key)" />
+
+            <UButton variant="soft" color="yellow" icon="i-heroicons-eye" label="Visualizar"
+              class="transition-all ease-in-out" @click="onDialogOpen(item)" />
+
+          </UContainer>
+        </template>
+
+      </UCard>
+      <Ucard v-else
+        class="bg-slate-800 w-full text-center flex align-middle justify-center items-center rounded-lg h-10">
+        <span>Nenhuma norma encontrada</span>
+      </Ucard>
+    </UContainer>
 
     <UModal v-model="isOpen">
       <UCard class="w-full h-auto divide-none">
