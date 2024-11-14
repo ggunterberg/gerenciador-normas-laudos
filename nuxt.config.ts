@@ -4,6 +4,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@nuxt/ui'],
   ssr: false,
+  app: {
+    baseURL: "/gerenciador-normas-laudos/.output/public",
+  },
   router: {
     options: {
       hashMode: true
